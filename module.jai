@@ -147,5 +147,7 @@ for_expansion :: (m: *Handle_Map, body: Code, flags: For_Flags) #expand {
     }
 }
 
+#scope_file
+
 #import "Basic";
 #import "Math";
