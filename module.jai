@@ -16,7 +16,18 @@ Handle :: struct {
     gen: u32; @"range: 0..10"
 }
 
-operator == :: (a: $T/Handle, b: T) -> bool {
+is_handle_variant :: ($$T: Type) -> bool {
+    #import "Compiler";
+
+    ti := cast(*Type_Info) T;
+    if ti.type != .VARIANT return false;
+
+    variant_ti := cast(*Type_Info_Variant) T;
+    it_is := get_type(variant_ti.variant_of) == Handle;
+    return it_is;
+}
+
+operator == :: (a: $T, b: T) -> bool #modify { return is_handle_variant(T); }{
     return a.idx == b.idx && a.gen == b.gen;
 }
 
